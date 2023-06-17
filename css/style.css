@@ -101,7 +101,7 @@ body {
 
 }
 
-#ticker {
+#card {
     border: solid 2px #BD93F9a1;
     background: none;
     font-family: 'Konkhmer Sleokchher', cursive;
@@ -143,33 +143,40 @@ body {
 
 }
 
-#tickers-list .ticker {
-    background-color:#282A36a2 ; /* 6 digitos e os 2 ultimos digitos são a opacidade da transparencia*/
-    padding: 20px;
-    justify-content: space-between;
+.card {
+    width: 23%;
+    margin: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.74);
+    border-radius: 10px;
+    color: #000;
+}
+
+.card-header {
+    padding: 1rem;
+    min-height: 100px;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    border-radius: 15px;
-    width: 100px;
+}
+
+.card-header .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: 'Get Schwifty';
+}
+.card-img img {
+    width: 100%;
+    height: auto;
+}
+.card-body {
+    padding: 1rem;
+    min-height: 160px;
     display: flex;
     flex-direction: column;
-    position: relative;
+    align-items: flex-start;
 }
-
-#tickers-list .ticker h2{
-    margin-top: 0;
-    margin-bottom: 15px;
-}
-
-#tickers-list .ticker p{
-    margin: 0;
-}
-
-.ticker p.increase{
-    color: #50D94C;
-}
-
-.ticker p.decrease {
-    color: rgb(219, 45, 14);
+.card-body p {
+    font-size: 1.2rem;
 }
 
 #tickers-list .ticker button.btn-close{

@@ -14,37 +14,49 @@ const handleModalClose = (event) => {
     }
 }
 
-const handleAddTicker = async (event) => {
-    event.preventDefault()
-    const newTickerName = event.target.ticker.value
+const urlApi = 'https://rickandmortyapi.com/api/character/';
 
-    const tickerWasFound = tickersList.find((ticker) => {
-        return ticker.name === newTickerName
-    })
-    
-    if(tickerWasFound){
-        alert("Ticker já adicionado!")
-        return
+const getCharacters = async (url, name = '') => {
+    if(name !== '') {
+        var response = await fetch(`${url}?name=${name}`);
+    } else {
+        var response = await fetch(url);
     }
 
-    try{
-        const response = await fetch(`https://rickandmortyapi.com/api/${newTickerName}"`) // faz a requisição na API
-        const data = await response.json() // transforma a resposta JSON em objeto
-        const status = data["status"]
-        const name = data["name"]
-        if(name && status){
-
-            const newTicker = {name, status}
-            tickersList.push(newTicker)
-            closeModal('#add-stock')
-            renderTickers()
-        }else{
-            alert(`Price or Close Price not Found!`)
-        }
-    } catch (error){
-        alert(error)
-    }
+    const data = await response.json();
+    const characters = data.results;
+    render(characters);
 }
+
+const handleAddTicker = (event) => {
+    event.preventDefault();
+    const name = document.querySelector('input').value;
+    getCharacters(urlApi, name);
+    render(character);
+}
+
+const render = (character) => {
+    const newTicker = 
+            `<div class="card">
+            <div class="card-header">
+              <p class="card-title">${character.name}</p>
+            </div>
+            <div class="card-img">
+              <img src="${character.image}" alt="${character.name}"/>
+            </div>
+            <div class="card-body">
+              <p><b>Gender:</b> ${character.gender}</p>
+              <p><b>Species:</b> ${character.species}</p>
+             
+            </div>
+          </div>
+             `
+            const tickersList = document.querySelector("#tickers-list")
+            tickersList.innerHTML = newTicker + tickersList.innerHTML
+            addTickersEvents()
+            closeModal('#add-stock')
+}
+
 
 // const handleAddTicker = async (event) => {
 //     event.preventDefault() // impede que o form seja enviado
@@ -134,31 +146,6 @@ const handleAddTicker = async (event) => {
 //     }
 // }
 
-const refreshTicker = async (event) => {
-    const divTicker = event.target.closest('.ticker')
-    const tickerName = divTicker.querySelector('h2').textContent
-    try{
-        const response = await fetch(`https://rickandmortyapi.com/api/character/1`) // faz a requisição na API
-        const data = await response.json() // transforma a resposta JSON em objeto
-        const status = data["status"]
-        const name = data["name"]
-        if(name && status){
-            const newTickerList = tickersList.map((ticker) => {
-                if(ticker.name === tickerName){
-                    return {name: ticker.name, status}
-                }else{
-                    return ticker
-                }
-            })
-            tickersList = newTickerList
-            renderTickers()
-        }else{
-            alert(`Ticker ${ticker} não encontrado para atualização!`)
-        }
-    } catch (error){
-        alert(error)
-    }
-}
 
 const handleTickerMouseEnter = (event) => {
     const ticker = event.target
@@ -212,22 +199,3 @@ modal.addEventListener("click", handleModalClose)
 
 addTickersEvents()
 
-const renderTickers = () => {
-    const divTickersList = document.querySelector("#tickers-list")
-    divTickersList.innerHTML = ''
-    tickersList.forEach((ticker) => {
-        const newTicker = 
-        `<div class="ticker">
-            <button class="btn-close" onclick="removeTicker(event)">x</button>
-            <button class="btn-refresh" onclick="refreshTicker(event)">R</button>
-            <h2>${ticker.name}</h2>
-            <p>${ticker.status}</p>
-        </div>
-            `
-        divTickersList.innerHTML += newTicker
-    })
-    addTickersEvents()
-}
-
-let tickersList = [{name: 'AMZN', price: 10.50, closePrice: 9.0}, {name: 'AAPL', price: 10.70, closePrice: 10.0}]
-renderTickers()
