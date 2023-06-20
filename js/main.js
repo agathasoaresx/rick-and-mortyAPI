@@ -1,3 +1,10 @@
+const characterId = document.getElementById('characterId');
+const btnGo = document.getElementById('btn-go');
+const btnReset = document.getElementById('btn-reset');
+const content = document.getElementById('content');
+const conteinerResult = document.getElementById('result-style');
+const image = document.getElementById('img');
+
 const openModal = (idModal) => {
     const divModal = document.querySelector(idModal)
     divModal.style.display = "flex"
@@ -14,19 +21,81 @@ const handleModalClose = (event) => {
     }
 }
 
-const urlApi = 'https://rickandmortyapi.com/api/character/';
+// const urlApi = 'https://rickandmortyapi.com/api/character/';
 
-const getCharacters = async (url, name = '') => {
-    if(name !== '') {
-        var response = await fetch(`${url}?name=${name}`);
-    } else {
-        var response = await fetch(url);
-    }
+const fetchApi = (value) => {
+    const result = fetch(`https://rickandmortyapi.com/api/character/${value}`)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      return data;
+    });
+  
+    return result;
+  }
 
-    const data = await response.json();
-    const characters = data.results;
-    render(characters);
+const keys = ['name', 'status', 'species', 'gender', 'origin', 'episode'];
+const newKeys = {
+  name: 'Nome',
+  status: 'Status',
+  species: 'Espécie',
+  gender: 'Gênero',
+  origin: 'Planeta de origem',
+  episode: 'Episódios',
 }
+
+const buildResult = (result) => {
+    return keys.map((key) => document.getElementById(key))
+      .map((elem) => {
+        if(elem.checked === true && (Array.isArray(result[elem.name])) === true){
+          const arrayResult = result[elem.name].join('\r\n');
+          console.log(arrayResult);
+          const newElem = document.createElement('p');
+          newElem.innerHTML = `${newKeys[elem.name]}: ${arrayResult}`;
+          content.appendChild(newElem);
+        } else if(elem.checked === true && (elem.name === 'origin')){
+          const newElem = document.createElement('p');
+          newElem.innerHTML = `${newKeys[elem.name]}: ${result[elem.name].name}`;
+          content.appendChild(newElem);
+        } else if(elem.checked === true && typeof(result[elem.name]) !== 'object'){
+          const newElem = document.createElement('p');
+          newElem.innerHTML = `${newKeys[elem.name]}: ${result[elem.name]}`;
+          content.appendChild(newElem);
+        }
+      });
+  }
+  
+  btnGo.addEventListener('click', async (event) => {
+    event.preventDefault();
+  
+    if(characterId.value === ''){
+      return content.innerHTML = 'É necessário fazer um filtro.';
+    }
+  
+    const result = await fetchApi(characterId.value);
+    const newTicker = 
+            `<div class="card">
+            <div class="card-header">
+              <p class="card-title">${result.name}</p>
+            </div>
+            <div class="card-img">
+              <img src="${result.image}" alt="${result.name}"/>
+            </div>
+            <div class="card-body">
+              <p><b>Gender:</b> ${result.gender}</p>
+              <p><b>Species:</b> ${result.species}</p>
+              <p><b>Status:</b> ${result.status}</p>
+              <p><b>Origin:</b> ${result.origin.name}</p>
+             
+            </div>
+          </div>
+             `
+            const tickersList = document.querySelector("#tickers-list")
+            tickersList.innerHTML = newTicker + tickersList.innerHTML
+            addTickersEvents()
+            closeModal('#add-stock')
+  });
+  
 
 const handleAddTicker = (event) => {
     event.preventDefault();
