@@ -16,13 +16,12 @@
 <body>
     <header id="main-header">
         <div class="wrapper">
-        <img src="img/stock-svgrepo-com (1).svg" alt=""/>
-        <h1>Stock <span>Dashboard</span></h1>
+        <img src="img/logo.png" alt=""/>
         <button onclick="openModal('#add-stock')">+</button>
         </div>
     </header>
     <div class="wrapper" id="tickers-list">
-        <div class="card">
+        <!-- <div class="card">
           <div class="card-header">
             <p class="card-title">${character.name}</p>
           </div>
@@ -34,7 +33,7 @@
             <p><b>Species:</b> Human</p>
             <p><b>Origin:</b> Earth</p>
           </div>
-        </div>
+        </div> -->
     </div>
     
     <div id="result-style">
@@ -46,7 +45,7 @@
         <div class="modal-content">
             <h1>Add Stock</h1>
             <button class="btn-close" onclick="closeModal('#add-stock')">×</button>
-            <form onsubmit="handleAddTicker(event)" method="get">
+            <form onsubmit="" method="get">
                 <label for="ticker">Ticker:</label>
                 <input type="number" name="characterId" id="characterId">
                 <button type="submit" id="btn-go">Pesquisar</button>

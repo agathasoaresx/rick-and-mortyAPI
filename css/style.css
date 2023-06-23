@@ -11,18 +11,15 @@ body {
 }
 
 #main-header {
-    height: 60px;
+    height: 80px;
     padding: 0 20px;
     background-color:#282A36a1;
 }
 
-#main-header h1 {
-    margin: 0;
-}
-
 #main-header img {
-    width: 40px;
-    height: 40px;
+    width: 200px;
+    height: auto;
+    margin-top: 18px;
 }
 
 #main-header .wrapper {
@@ -49,6 +46,7 @@ body {
 #main-header button:hover {
     background: #000;
 }
+
 
 .wrapper {
     width: 900px;
@@ -137,56 +135,89 @@ body {
 #tickers-list {
     display: flex;
     gap: 30px;
-    padding: 20PX;
+    padding: 20px;
     margin-top: 15px;
     flex-wrap: wrap;
 
 }
 
 .card {
-    width: 23%;
+    width: 280px;
     margin: 0.5rem;
-    background-color: rgba(255, 255, 255, 0.74);
+    height: 500px;
+    background-color:#282A36a2 ;
     border-radius: 10px;
     color: #000;
+    position: relative;
+    color: #F8F8E6;
 }
 
 .card-header {
     padding: 1rem;
-    min-height: 100px;
+    min-height: 30px;
+    margin-top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
 .card-header .card-title {
     font-size: 1.5rem;
     font-weight: bold;
     font-family: 'Get Schwifty';
+    margin: 0px;
 }
+.card-img {
+    position: relative;
+}
+
 .card-img img {
-    width: 100%;
+    width: 80%;
     height: auto;
+    position: absolute; 
+    left: 25px;   
 }
+
 .card-body {
     padding: 1rem;
-    min-height: 160px;
+    min-height: 100px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    position: absolute;
+    margin-top: 230px;
 }
 .card-body p {
     font-size: 1.2rem;
+    margin: 5px;
 }
 
-#tickers-list .ticker button.btn-close{
+.card-body p span {
+    color: forestgreen;
+}
+
+#tickers-list .card button.btn-close{
     line-height: 14px;
-    right: 5px;
+    position: absolute;
+    right: 8px;
+    margin-top: 8px;
+    background: none;
+    border: 0px;
+    font-size: 14px;
     display: none;
+    color: #F8F8E6;
+
 }
 
-#tickers-list .ticker button.btn-refresh{
+#tickers-list .card button.btn-refresh{
+    position: absolute;
     right: 25px;
-    top: -7px;
+    margin-top: 6px;
+    background: none;
+    border: 0px;
+    font-size: 16px;
     display: none;
+    color: #F8F8E6;
+    
 }

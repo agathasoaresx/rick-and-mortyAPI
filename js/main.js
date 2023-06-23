@@ -1,9 +1,7 @@
 const characterId = document.getElementById('characterId');
 const btnGo = document.getElementById('btn-go');
-const btnReset = document.getElementById('btn-reset');
-const content = document.getElementById('content');
-const conteinerResult = document.getElementById('result-style');
-const image = document.getElementById('img');
+
+// CONFIGURAÇÕES DO MODAL 
 
 const openModal = (idModal) => {
     const divModal = document.querySelector(idModal)
@@ -21,7 +19,7 @@ const handleModalClose = (event) => {
     }
 }
 
-// const urlApi = 'https://rickandmortyapi.com/api/character/';
+// FETCH API (pegando os dados)
 
 const fetchApi = (value) => {
     const result = fetch(`https://rickandmortyapi.com/api/character/${value}`)
@@ -34,6 +32,9 @@ const fetchApi = (value) => {
     return result;
   }
 
+  // CHAVES PARA CRIAR O FILTRO 
+
+  /*
 const keys = ['name', 'status', 'species', 'gender', 'origin', 'episode'];
 const newKeys = {
   name: 'Nome',
@@ -65,27 +66,35 @@ const buildResult = (result) => {
       });
   }
   
-  btnGo.addEventListener('click', async (event) => {
+  */
+
+  // PESQUISANDO ID DO PERSONAGEM 
+
+   btnGo.addEventListener('click', async (event) => {
     event.preventDefault();
   
+  // verificando se o id existe
+
     if(characterId.value === ''){
-      return content.innerHTML = 'É necessário fazer um filtro.';
-    }
-  
+      alert("Digite o número de um personagem!");
+    } else {
+    
     const result = await fetchApi(characterId.value);
     const newTicker = 
             `<div class="card">
-            <div class="card-header">
+            <button class="btn-close"  onclick="removeTicker(event)">✖</button>
+            <button class="btn-refresh" onclick="refreshTicker(event)">↺</button>
+            <div class="card-header"> 
               <p class="card-title">${result.name}</p>
             </div>
             <div class="card-img">
               <img src="${result.image}" alt="${result.name}"/>
             </div>
             <div class="card-body">
-              <p><b>Gender:</b> ${result.gender}</p>
-              <p><b>Species:</b> ${result.species}</p>
-              <p><b>Status:</b> ${result.status}</p>
-              <p><b>Origin:</b> ${result.origin.name}</p>
+              <p><b><span>Gender:<span></b> ${result.gender}</p>
+              <p><b><span>Species:<span></b> ${result.species}</p>
+              <p><b><span>Status:<span></b> ${result.status}</p>
+              <p><b><span>Origin:<span></b> ${result.origin.name}</p>
              
             </div>
           </div>
@@ -94,8 +103,10 @@ const buildResult = (result) => {
             tickersList.innerHTML = newTicker + tickersList.innerHTML
             addTickersEvents()
             closeModal('#add-stock')
+    }
   });
-  
+
+/*
 
 const handleAddTicker = (event) => {
     event.preventDefault();
@@ -126,141 +137,79 @@ const render = (character) => {
             closeModal('#add-stock')
 }
 
-
-// const handleAddTicker = async (event) => {
-//     event.preventDefault() // impede que o form seja enviado
-//     const ticker = event.target.ticker.value // pega o valor do input ticker
-
-//     const h2Tickers = document.querySelectorAll(".ticker h2")
-
-//     let tickerWasFound = false
-//     h2Tickers.forEach((h2) => {
-//         if(h2.textContent === ticker){
-//             alert("Ticker já adicionado!")
-//             tickerWasFound = true
-//         }
-//     })
-//     if(tickerWasFound){
-//         return
-//     }
-
-//     console.log('teste')
-
-//     try{
-//         const response = await fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker}&apikey=HAUCFV4MBFM2A2Z1`) // faz a requisição na API
-//         const data = await response.json() // transforma a resposta JSON em objeto
-//         const price = data["Global Quote"]["05. price"]
-//         const previousClosePrice = data["Global Quote"]["08. previous close"]
-//         if(price && previousClosePrice){
-//             const priceFormatted = parseFloat(price).toFixed(2)
-//             const previousClosePriceFormatted = parseFloat(previousClosePrice).toFixed(2)
-//             let priceChange = ''
-//             let Symbol = ''
-//             if (priceFormatted !== previousClosePriceFormatted) {
-//                 if (priceFormatted > previousClosePriceFormatted) {
-//                     priceChange = 'increase'
-//                     Symbol = '▲'
-//                 } else {
-//                     priceChange = 'decrease'
-//                     Symbol = '▼'
-//                 }
-//             }
-
-//             const newTicker = 
-//             `<div class="ticker">
-//                 <button class="btn-close" onclick="removeTicker(event)">x</button>
-//                 <button class="btn-refresh" onclick="refreshTicker(event)">R</button>
-//                 <h2>${ticker}</h2>
-//                 <p class="${priceChange}">${Symbol} $ ${priceFormatted}</p>
-//             </div>
-//             `
-//             const tickersList = document.querySelector("#tickers-list")
-//             tickersList.innerHTML = newTicker + tickersList.innerHTML
-//             addTickersEvents()
-//             closeModal('#add-stock')
-//         }else{
-//             alert(`Ticker ${ticker} não encontrado!`)
-//         }
-//     } catch (error){
-//         alert(error)
-//     }
-// }
-
-// const refreshTicker = async (event) => {
-//     const divTicker = event.target.closest('.ticker')
-//     const ticker = divTicker.querySelector('h2').textContent
-//     const pPrice = divTicker.querySelector('p')
-//     const response = await fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker}&apikey=HAUCFV4MBFM2A2Z1`) // faz a requisição na API
-//     const data = await response.json() // transforma a resposta JSON em objeto
-//     const price = data["Global Quote"]["05. price"]
-//     const previousClosePrice = data["Global Quote"]["08. previous close"]
-//     if(price && previousClosePrice){
-//         const priceFormatted = parseFloat(price).toFixed(2)
-//         const previousClosePriceFormatted = parseFloat(previousClosePrice).toFixed(2)
-//         let priceChange = ''
-//         let Symbol = ''
-//         if(priceFormatted !== previousClosePriceFormatted){
-//             if(priceFormatted > previousClosePriceFormatted){
-//                 priceChange = 'increase'
-//                 Symbol = '▲'
-//             }else{
-//                 priceChange = 'decrease'
-//                 Symbol = '▼'
-//             }
-//         }
-//         pPrice.innerHTML = `${Symbol} ${priceFormatted}`
-//         pPrice.className = priceChange
-//     }else{
-//         alert(`Ticker ${ticker} não encontrado para atualização!`)
-//     }
-// }
-
+*/ 
 
 const handleTickerMouseEnter = (event) => {
-    const ticker = event.target
-    const btnClose = ticker.querySelector(".btn-close")
-    const btnRefresh = ticker.querySelector(".btn-refresh")
+    const card = event.target
+    const btnClose = card.querySelector(".btn-close")
+    const btnRefresh = card.querySelector(".btn-refresh")
     btnClose.style.display = "block"
     btnRefresh.style.display = "block"
 }
 
 const addTickersEvents = () => {
-    const tickers = document.querySelectorAll(".ticker")
-    tickers.forEach((ticker) => {
-        ticker.addEventListener("mouseenter", handleTickerMouseEnter)
-        ticker.addEventListener("mouseleave", handleTickerMouseLeave)
+    const cards = document.querySelectorAll(".card")
+    cards.forEach((card) => {
+        card.addEventListener("mouseenter", handleTickerMouseEnter)
+        card.addEventListener("mouseleave", handleTickerMouseLeave)
     })
 }
 
 const handleTickerMouseLeave = (event) => {
-    const ticker = event.target
-    const btnClose = ticker.querySelector(".btn-close")
-    const btnRefresh = ticker.querySelector(".btn-refresh")
+    const card = event.target
+    const btnClose = card.querySelector(".btn-close")
+    const btnRefresh = card.querySelector(".btn-refresh")
     btnClose.style.display = "none"
     btnRefresh.style.display = "none"
 }
 
-// const removeTicker = (event) => {
-//     const btnClose = event.target
-//     const ticker = btnClose.closest('.ticker')
-//     ticker.remove()
-// }
+const renderCards = () => {
+  const divTickersList = document.querySelector("#tickers-list")
+  divTickersList.innerHTML = ''
+  tickersList.forEach((card) => {
+
+    if(characterId.value === ''){
+      alert("Digite o número de um personagem!");
+    } else {
+
+    const newTicker = 
+            `<div class="card">
+            <button class="btn-close"  onclick="removeTicker(event)">✖</button>
+            <button class="btn-refresh" onclick="refreshTicker(event)">↺</button>
+            <div class="card-header"> 
+              <p class="card-title">${result.name}</p>
+            </div>
+            <div class="card-img">
+              <img src="${result.image}" alt="${result.name}"/>
+            </div>
+            <div class="card-body">
+              <p><b><span>Gender:<span></b> ${result.gender}</p>
+              <p><b><span>Species:<span></b> ${result.species}</p>
+              <p><b><span>Status:<span></b> ${result.status}</p>
+              <p><b><span>Origin:<span></b> ${result.origin.name}</p>
+             
+            </div>
+          </div>
+             `
+            const tickersList = document.querySelector("#tickers-list")
+            tickersList.innerHTML = newTicker + tickersList.innerHTML
+            addTickersEvents()
+            closeModal('#add-stock')
+    }
+  });
+}
 
 const removeTicker = (event) => {
     const btnClose = event.target
-    const ticker = btnClose.closest('.ticker')
-    const h2Ticker = ticker.querySelector('h2')
-    const tickerName = h2Ticker.textContent
-    // const tickerIndex = tickersList.findIndex((ticker) => {
-    //     return ticker.name === tickerName
-    // })
-    // tickersList.splice(tickerIndex, 1)
-    // renderTickers()
-    newTickerList = tickersList.filter((ticker) => {
-        return ticker.name !== tickerName
+    const card = btnClose.closest('.card')
+    const cardheaderCard = card.querySelector('.card-header')
+    const cardName = cardheaderCard.textContent
+
+    /*newTickerList = tickersList.filter((card) => {
+        return card.name !== cardName
     })
-    tickersList = newTickerList
-    renderTickers()
+    tickersList = newTickerList*/
+    renderCards()
 }
 
 const modal = document.querySelector(".modal")
