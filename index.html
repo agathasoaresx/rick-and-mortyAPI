@@ -57,8 +57,7 @@
     <div class="modal" id="edit-card">
       <div class="modal-content">
         <h2>Informações:</h2>
-        <label for="name">Nome</label>
-        <input type="checkbox" name="name" id="name">
+        <button class="btn-close" onclick="closeModal('#edit-card')">×</button>
     
         <label for="status">Status</label>
         <input type="checkbox" name="status" id="status">
@@ -68,16 +67,10 @@
     
         <label for="gender">Gênero</label>
         <input type="checkbox" name="gender" id="gender">
-    
-        <label for="origin">Planeta de origem</label>
-        <input type="checkbox" name="origin" id="origin">
-    
-        <label for="episode">Episódios</label>
-        <input type="checkbox" name="episode" id="episode">
-    
+
         <hr>
     
-        <button type="submit" id="btn-go">Pesquisar</button>
+        <button type="submit" id="btn-edit" onclick="editCard(event)">Pesquisar</button>
       </div>
   </div>
     <script src="js/main.js"> </script>

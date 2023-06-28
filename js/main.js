@@ -1,5 +1,10 @@
 const characterId = document.getElementById('characterId');
 const btnGo = document.getElementById('btn-go');
+const btnEdit = document.getElementById('btn-edit');
+const checkStatus = document.getElementById('status');
+const checkSpecies = document.getElementById('species');
+const checkGender = document.getElementById('gender');
+const cardBody = document.querySelector('.card-body');
 
 // CONFIGURAÇÕES DO MODAL 
 
@@ -57,9 +62,9 @@ const fetchApi = (value) => {
               <img src="${result.image}" alt="${result.name}"/>
             </div>
             <div class="card-body">
-              <p><b><span>Gender:<span></b> ${result.gender}</p>
-              <p><b><span>Species:<span></b> ${result.species}</p>
-              <p><b><span>Status:<span></b> ${result.status}</p>
+              <p id="p-gender"><b><span>Gender:<span></b> ${result.gender}</p>
+              <p id="p-species"><b><span>Species:<span></b> ${result.species}</p>
+              <p id="p-status"><b><span>Status:<span></b> ${result.status}</p>
               <p><b><span>Origin:<span></b> ${result.origin.name}</p>
              
             </div>
@@ -134,6 +139,14 @@ const renderCards = () => {
     }
 }
 
+const infos = ['name', 'status', 'species', 'gender', 'origin', 'episode'];
+ const newInfos = {
+   name: 'Nome',
+   status: 'Status',
+   species: 'Espécie',
+   gender: 'Gênero',
+ }
+
 // removendo e editando o card
 
 const removeCard = (event) => {
@@ -143,45 +156,29 @@ const removeCard = (event) => {
     card.remove()
 }
 
-const editCard = () => {
+const editCard = (event) => {
 
+  if(checkStatus.checked){
+    const cardBody = event.target
+    const pStatus = document.getElementById('p-status')
+    pStatus.remove()
+    closeModal('#edit-card')
+  }
 }
-
- // CHAVES PARA CRIAR O FILTRO 
-
- const keys = ['name', 'status', 'species', 'gender', 'origin', 'episode'];
- const newKeys = {
-   name: 'Nome',
-   status: 'Status',
-   species: 'Espécie',
-   gender: 'Gênero',
-   origin: 'Planeta de origem',
-   episode: 'Episódios',
- }
- 
- const buildResult = (result) => {
-     return keys.map((key) => document.getElementById(key))
-       .map((elem) => {
-         if(elem.checked === true && (Array.isArray(result[elem.name])) === true){
-           const arrayResult = result[elem.name].join('\r\n');
-           console.log(arrayResult);
-           const newElem = document.createElement('p');
-           newElem.innerHTML = `${newKeys[elem.name]}: ${arrayResult}`;
-           content.appendChild(newElem);
-         } else if(elem.checked === true && (elem.name === 'origin')){
-           const newElem = document.createElement('p');
-           newElem.innerHTML = `${newKeys[elem.name]}: ${result[elem.name].name}`;
-           content.appendChild(newElem);
-         } else if(elem.checked === true && typeof(result[elem.name]) !== 'object'){
-           const newElem = document.createElement('p');
-           newElem.innerHTML = `${newKeys[elem.name]}: ${result[elem.name]}`;
-           content.appendChild(newElem);
-         }
-       });
-   }
 
 const modal = document.querySelector(".modal")
 modal.addEventListener("click", handleModalClose)
+
+ // CHAVES PARA CRIAR O FILTRO 
+
+  btnEdit.addEventListener('click', async (event) => {
+  event.preventDefault();
+  
+    
+  });
+  
+
+
 
 addCardsEvents()
 
