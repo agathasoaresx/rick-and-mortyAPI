@@ -32,41 +32,7 @@ const fetchApi = (value) => {
     return result;
   }
 
-  // CHAVES PARA CRIAR O FILTRO 
-
-  /*
-const keys = ['name', 'status', 'species', 'gender', 'origin', 'episode'];
-const newKeys = {
-  name: 'Nome',
-  status: 'Status',
-  species: 'Espécie',
-  gender: 'Gênero',
-  origin: 'Planeta de origem',
-  episode: 'Episódios',
-}
-
-const buildResult = (result) => {
-    return keys.map((key) => document.getElementById(key))
-      .map((elem) => {
-        if(elem.checked === true && (Array.isArray(result[elem.name])) === true){
-          const arrayResult = result[elem.name].join('\r\n');
-          console.log(arrayResult);
-          const newElem = document.createElement('p');
-          newElem.innerHTML = `${newKeys[elem.name]}: ${arrayResult}`;
-          content.appendChild(newElem);
-        } else if(elem.checked === true && (elem.name === 'origin')){
-          const newElem = document.createElement('p');
-          newElem.innerHTML = `${newKeys[elem.name]}: ${result[elem.name].name}`;
-          content.appendChild(newElem);
-        } else if(elem.checked === true && typeof(result[elem.name]) !== 'object'){
-          const newElem = document.createElement('p');
-          newElem.innerHTML = `${newKeys[elem.name]}: ${result[elem.name]}`;
-          content.appendChild(newElem);
-        }
-      });
-  }
-  
-  */
+ 
 
   // PESQUISANDO ID DO PERSONAGEM 
 
@@ -78,12 +44,12 @@ const buildResult = (result) => {
     if(characterId.value === ''){
       alert("Digite o número de um personagem!");
     } else {
-    
+
     const result = await fetchApi(characterId.value);
-    const newTicker = 
+    const newCard = 
             `<div class="card">
-            <button class="btn-close"  onclick="removeTicker(event)">✖</button>
-            <button class="btn-refresh" onclick="refreshTicker(event)">↺</button>
+            <button class="btn-close" onclick="removeCard(event)">✖</button>
+            <button class="btn-edit" onclick="openModal('#edit-card')">🖉</button>
             <div class="card-header"> 
               <p class="card-title">${result.name}</p>
             </div>
@@ -99,55 +65,32 @@ const buildResult = (result) => {
             </div>
           </div>
              `
-            const tickersList = document.querySelector("#tickers-list")
-            tickersList.innerHTML = newTicker + tickersList.innerHTML
-            addTickersEvents()
-            closeModal('#add-stock')
+            const cardsList = document.querySelector("#cards-list")
+            cardsList.innerHTML = newCard + cardsList.innerHTML
+            addCardsEvents()
+            closeModal('#add-character')
     }
   });
 
-/*
-
-const handleAddTicker = (event) => {
-    event.preventDefault();
-    const name = document.querySelector('input').value;
-    getCharacters(urlApi, name);
-    render(character);
-}
-
-const render = (character) => {
-    const newTicker = 
-            `<div class="card">
-            <div class="card-header">
-              <p class="card-title">${character.name}</p>
-            </div>
-            <div class="card-img">
-              <img src="${character.image}" alt="${character.name}"/>
-            </div>
-            <div class="card-body">
-              <p><b>Gender:</b> ${character.gender}</p>
-              <p><b>Species:</b> ${character.species}</p>
-             
-            </div>
-          </div>
-             `
-            const tickersList = document.querySelector("#tickers-list")
-            tickersList.innerHTML = newTicker + tickersList.innerHTML
-            addTickersEvents()
-            closeModal('#add-stock')
-}
-
-*/ 
+// Eventos de mouse leave e mouse enter
 
 const handleTickerMouseEnter = (event) => {
     const card = event.target
     const btnClose = card.querySelector(".btn-close")
-    const btnRefresh = card.querySelector(".btn-refresh")
+    const btnEdit = card.querySelector(".btn-edit")
     btnClose.style.display = "block"
-    btnRefresh.style.display = "block"
+    btnEdit.style.display = "block"
 }
 
-const addTickersEvents = () => {
+const handleTickerMouseLeave = (event) => {
+  const card = event.target
+  const btnClose = card.querySelector(".btn-close")
+  const btnEdit = card.querySelector(".btn-edit")
+  btnClose.style.display = "none"
+  btnEdit.style.display = "none"
+}
+
+const addCardsEvents = () => {
     const cards = document.querySelectorAll(".card")
     cards.forEach((card) => {
         card.addEventListener("mouseenter", handleTickerMouseEnter)
@@ -155,27 +98,20 @@ const addTickersEvents = () => {
     })
 }
 
-const handleTickerMouseLeave = (event) => {
-    const card = event.target
-    const btnClose = card.querySelector(".btn-close")
-    const btnRefresh = card.querySelector(".btn-refresh")
-    btnClose.style.display = "none"
-    btnRefresh.style.display = "none"
-}
+
 
 const renderCards = () => {
-  const divTickersList = document.querySelector("#tickers-list")
-  divTickersList.innerHTML = ''
-  tickersList.forEach((card) => {
+  const divCardsList = document.querySelector("#cards-list")
+  divCardsList.innerHTML = ''
 
     if(characterId.value === ''){
       alert("Digite o número de um personagem!");
     } else {
 
-    const newTicker = 
-            `<div class="card">
-            <button class="btn-close"  onclick="removeTicker(event)">✖</button>
-            <button class="btn-refresh" onclick="refreshTicker(event)">↺</button>
+    const newCard = 
+            `<div class="card" id="character">
+            <button class="btn-close" onclick="removeCard(event)">✖</button>
+            <button class="btn-edit" onclick="editCard(event)">🖉</button>
             <div class="card-header"> 
               <p class="card-title">${result.name}</p>
             </div>
@@ -191,29 +127,61 @@ const renderCards = () => {
             </div>
           </div>
              `
-            const tickersList = document.querySelector("#tickers-list")
-            tickersList.innerHTML = newTicker + tickersList.innerHTML
-            addTickersEvents()
-            closeModal('#add-stock')
+            const cardsList = document.querySelector("#cards-list")
+            cardsList.innerHTML = newCard + cardsList.innerHTML
+            addCardsEvents()
+            closeModal('#add-character')
     }
-  });
 }
 
-const removeTicker = (event) => {
+// removendo e editando o card
+
+const removeCard = (event) => {
     const btnClose = event.target
     const card = btnClose.closest('.card')
-    const cardheaderCard = card.querySelector('.card-header')
-    const cardName = cardheaderCard.textContent
 
-    /*newTickerList = tickersList.filter((card) => {
-        return card.name !== cardName
-    })
-    tickersList = newTickerList*/
-    renderCards()
+    card.remove()
 }
+
+const editCard = () => {
+
+}
+
+ // CHAVES PARA CRIAR O FILTRO 
+
+ const keys = ['name', 'status', 'species', 'gender', 'origin', 'episode'];
+ const newKeys = {
+   name: 'Nome',
+   status: 'Status',
+   species: 'Espécie',
+   gender: 'Gênero',
+   origin: 'Planeta de origem',
+   episode: 'Episódios',
+ }
+ 
+ const buildResult = (result) => {
+     return keys.map((key) => document.getElementById(key))
+       .map((elem) => {
+         if(elem.checked === true && (Array.isArray(result[elem.name])) === true){
+           const arrayResult = result[elem.name].join('\r\n');
+           console.log(arrayResult);
+           const newElem = document.createElement('p');
+           newElem.innerHTML = `${newKeys[elem.name]}: ${arrayResult}`;
+           content.appendChild(newElem);
+         } else if(elem.checked === true && (elem.name === 'origin')){
+           const newElem = document.createElement('p');
+           newElem.innerHTML = `${newKeys[elem.name]}: ${result[elem.name].name}`;
+           content.appendChild(newElem);
+         } else if(elem.checked === true && typeof(result[elem.name]) !== 'object'){
+           const newElem = document.createElement('p');
+           newElem.innerHTML = `${newKeys[elem.name]}: ${result[elem.name]}`;
+           content.appendChild(newElem);
+         }
+       });
+   }
 
 const modal = document.querySelector(".modal")
 modal.addEventListener("click", handleModalClose)
 
-addTickersEvents()
+addCardsEvents()
 

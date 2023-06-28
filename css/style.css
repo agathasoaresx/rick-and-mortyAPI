@@ -78,9 +78,10 @@ body {
 
 .modal .modal-content h1 {
     margin-top: 0;
+    font-size: 24px;
 }
 
-.modal .modal-content button.btn-close, #tickers-list .ticker button.btn-close {
+.modal .modal-content button.btn-close, #cards-list .card button.btn-close {
     position: absolute;
     top: 5px;
     right: 15px;
@@ -93,7 +94,7 @@ body {
     cursor: pointer;
 }
 
-#add-stock form {
+#add-character form {
     margin: 30px 0 0 0;
     font-family: 'Konkhmer Sleokchher', cursive;
 
@@ -112,27 +113,32 @@ body {
 }
 
 
-#add-stock form input{
+#add-character form input{
     border-radius: 10px 10px 10px;
+    width: 120px;
+    height: 30px;
+    font-size: 24px;
 }
 
-#btnAdd {    
+#btn-go{    
     border: none;
     width: 85px;
-    height: 32px;
+    height: 36px;
+    margin-bottom: 15px;
     font-family: 'Konkhmer Sleokchher', cursive;
     font-size: 12px;
     color: #BD93F9a1;
     background-color: #282A36;
     border: solid 2px #BD93F9a1;
+    border-radius: 10px 10px 10px;
 }
 
-#btnAdd:hover {
+#btn-go:hover {
     background-color:#BD93F9;
     color:#282A36;
 }
 
-#tickers-list {
+#cards-list {
     display: flex;
     gap: 30px;
     padding: 20px;
@@ -154,11 +160,12 @@ body {
 
 .card-header {
     padding: 1rem;
-    min-height: 30px;
+    min-height: 50px;
     margin-top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    
 
 }
 
@@ -197,22 +204,21 @@ body {
     color: forestgreen;
 }
 
-#tickers-list .card button.btn-close{
+#cards-list .card button.btn-close{
     line-height: 14px;
     position: absolute;
-    right: 8px;
-    margin-top: 8px;
+    right: 6px;
     background: none;
     border: 0px;
-    font-size: 14px;
+    font-size: 15px;
     display: none;
     color: #F8F8E6;
 
 }
 
-#tickers-list .card button.btn-refresh{
+#cards-list .card button.btn-edit{
     position: absolute;
-    right: 25px;
+    right: 30px;
     margin-top: 6px;
     background: none;
     border: 0px;
