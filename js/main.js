@@ -4,6 +4,7 @@ const btnEdit = document.getElementById('btn-edit');
 const checkStatus = document.getElementById('status');
 const checkSpecies = document.getElementById('species');
 const checkGender = document.getElementById('gender');
+const checkOrigin = document.getElementById('origin');
 const cardBody = document.querySelector('.card-body');
 
 // CONFIGURAÇÕES DO MODAL 
@@ -145,6 +146,7 @@ const infos = ['name', 'status', 'species', 'gender', 'origin', 'episode'];
    status: 'Status',
    species: 'Espécie',
    gender: 'Gênero',
+   origin: 'Origem'
  }
 
 // removendo e editando o card
@@ -156,13 +158,28 @@ const removeCard = (event) => {
     card.remove()
 }
 
+
 const editCard = (event) => {
 
   if(checkStatus.checked){
-    const cardBody = event.target
+    const btnEdit = event.target
     const pStatus = document.getElementById('p-status')
     pStatus.remove()
     closeModal('#edit-card')
+  } else if(checkGender.checked){
+    const btnEdit = event.target
+    const pGender = document.getElementById('p-gender')
+    pGender.remove()
+    closeModal('#edit-card')
+  } else if(checkSpecies.checked){
+    const btnEdit = event.target
+    const pSpecies = document.getElementById('p-species')
+    pSpecies.remove()
+    closeModal('#edit-card')
+  } else if(checkOrigin.checked) {
+    const btnEdit = event.target
+    const pOrigin = document.getElementById('p-origin')
+    pOrigin.remove()
   }
 }
 
@@ -180,5 +197,5 @@ modal.addEventListener("click", handleModalClose)
 
 
 
-addCardsEvents()
+//addCardsEvents()
 

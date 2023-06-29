@@ -44,10 +44,9 @@
 
     <div class="modal" id="add-character">
         <div class="modal-content">
-            <h1>Insira um número de 1 A 826: </h1>
+            <h1>Insira um número de 1 a 826 e descubra o personagem: </h1>
             <button class="btn-close" onclick="closeModal('#add-character')">×</button>
             <form onsubmit="" method="get">
-                <label for="code">Id do personagem:</label>
                 <input type="number" name="characterId" id="characterId">
                 <button type="submit" id="btn-go">Pesquisar</button>
             </form>
@@ -68,6 +67,8 @@
         <label for="gender">Gênero</label>
         <input type="checkbox" name="gender" id="gender">
 
+        <label for="origin">Origem</label>
+        <input type="checkbox" name="origin" id="origin">
         <hr>
     
         <button type="submit" id="btn-edit" onclick="editCard(event)">Pesquisar</button>
