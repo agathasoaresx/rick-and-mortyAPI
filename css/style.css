@@ -33,8 +33,18 @@ body {
     color: #BD93F9a1;
 }
 
-#main-header button {
+#add{
     margin: 0 0 0 auto;
+    background: none;
+    border: 2px solid #BD93F9a1;
+    color: #BD93F9a1;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#filtro{
+    margin-left: 1150px;
     background: none;
     border: 2px solid #BD93F9a1;
     color: #BD93F9a1;
@@ -123,7 +133,7 @@ body {
     margin-right: 10px;
 }
 
-#btn-go{    
+#btn-go, #btn-filter{    
     border: none;
     width: 85px;
     height: 35px;
@@ -133,6 +143,7 @@ body {
     color: #BD93F9a1;
     background-color: #282A36;
     border: solid 2px #BD93F9a1;
+    cursor: pointer;
     border-radius: 10px 10px 10px;
 }
 
@@ -226,7 +237,7 @@ body {
     background: none;
     border: 0px;
     font-size: 16px;
-    display: none;
+    /* display: none; */
     color: #F8F8E6;
     
 }
